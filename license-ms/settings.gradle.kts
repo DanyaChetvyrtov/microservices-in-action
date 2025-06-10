@@ -1,4 +1,4 @@
-rootProject.name = "o-stock"
+rootProject.name = "license-ms"
 
 pluginManagement {
     repositories {

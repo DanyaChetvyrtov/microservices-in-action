@@ -1,1 +1,0 @@
-CREATE SCHEMA IF NOT EXISTS license_schema;

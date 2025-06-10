@@ -3,7 +3,7 @@ WORKDIR /app
 COPY . .
 RUN gradle bootJar --no-daemon
 
-FROM eclipse-temurin:21-jre
+FROM ubuntu/jre:11-24.04_edge
 WORKDIR /app
 COPY --from=build /app/build/libs/*.jar app.jar
 EXPOSE 8080

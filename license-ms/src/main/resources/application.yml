@@ -5,15 +5,17 @@ spring:
     active: dev
   cloud:
     config:
-      uri: http://localhost:8071/ostock-dev?currentSchema=license_schema
+      uri: http://localhost:8071
   config:
     import: "configserver:"
 
   liquibase:
-    change-log: classpath:db/changelog
+    change-log: classpath:db/changelog/db.changelog-master.yml
     enabled: true
     default-schema: license_schema
+    liquibase-schema: public
 
 server:
   port: 8080
+
 
