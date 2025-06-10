@@ -1,0 +1,15 @@
+example:
+  property: I AM THE DEV
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ostock-dev
+    username: postgres
+    password: root
+    testWhileIdle: true
+    validationQuery: SELECT 1
+
+  sql:
+    init:
+      schema-locations: classpath:/sql/schema-dev.sql
+      mode: always

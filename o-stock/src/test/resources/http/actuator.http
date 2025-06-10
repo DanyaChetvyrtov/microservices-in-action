@@ -1,0 +1,4 @@
+@path = http://localhost:8080
+
+### GET request to example server
+GET {{path}}/actuator/health

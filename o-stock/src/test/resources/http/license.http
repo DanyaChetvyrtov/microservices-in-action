@@ -1,0 +1,33 @@
+@path = http://localhost:8080/v1/organization/
+
+### GET request to example server
+GET {{path}}/228/license/2
+
+### POST request to example server
+POST {{path}}/228/license
+Content-Type: application/json
+Accept-Language: ru
+
+{
+   "licenseId": "1488",
+   "description": "Very cool description",
+   "organizationId": "228",
+   "productName": "Cool software product",
+   "licenseType": "software"
+}
+
+### PUT request to example server
+PUT {{path}}/228/license
+Content-Type: application/json
+
+{
+  "licenseId": "1488",
+  "description": "Very cool description",
+  "organizationId": "228",
+  "productName": "Cool software product",
+  "licenseType": "software"
+}
+
+
+### DELETE request to example server
+DELETE {{path}}/228/license/2

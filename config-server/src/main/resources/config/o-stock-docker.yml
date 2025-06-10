@@ -1,0 +1,13 @@
+example:
+  property: I AM DOCKER
+
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/ostock-dev
+    username: postgres
+    password: root
+
+  sql:
+    init:
+      schema-locations: classpath:/sql/schema-docker.sql
+      mode: always

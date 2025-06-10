@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: o-stock
+  profiles:
+    active: dev
+  cloud:
+    config:
+      uri: http://localhost:8071/ostock-dev?currentSchema=license_schema
+  config:
+    import: "configserver:"
+
+  liquibase:
+    change-log: classpath:db/changelog
+    enabled: true
+    default-schema: license_schema
+
+server:
+  port: 8080
+
