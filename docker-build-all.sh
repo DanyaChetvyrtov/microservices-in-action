@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
 
-# Build config-server image
-echo "Building config-server image..."
-cd config-server || { echo "Error entering config-server directory"; exit 1; }
-docker build -t danilchet/config-server-ms . || { echo "Error building config-server image"; exit 1; }
-cd ..
-echo "Successfully built config-server image"
+# Функция для сборки Docker-образа
+echo "----------------------------------------"
+build_service() {
+    local service_name=$1
+    local image_name=$2
 
-# Build license-ms image
-echo "Building license-ms image..."
-cd license-ms || { echo "Error entering license-ms directory"; exit 1; }
-docker build -t danilchet/license-ms . || { echo "Error building license-ms image"; exit 1; }
-cd ..
-echo "Successfully built license-ms image"
+    echo "Building ${service_name} image..."
+
+    cd "${service_name}" || { echo "Error entering ${service_name} directory"; exit 1; }
+    docker build -t "${image_name}" . || { echo "Error building ${service_name} image"; exit 1; }
+    cd ..
+
+    echo "Successfully built ${service_name} image"
+    echo "----------------------------------------"
+}
+
+# Сборка всех микросервисов
+build_service "config-server" "danilchet/config-server-ms"
+build_service "license-ms" "danilchet/license-ms"
 
 echo "All images built successfully"
