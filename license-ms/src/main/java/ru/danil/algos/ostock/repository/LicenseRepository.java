@@ -6,9 +6,10 @@ import ru.danil.algos.ostock.model.License;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface LicenseRepository extends CrudRepository<License, String> {
     List<License> findByOrganizationId(String organizationId);
-    Optional<License> findByOrganizationIdAndLicenseId(String organizationId, String licenseId);
+    Optional<License> findByOrganizationIdAndLicenseId(String organizationId, UUID licenseId);
 }

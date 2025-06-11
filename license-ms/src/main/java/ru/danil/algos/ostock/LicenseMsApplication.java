@@ -6,10 +6,10 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 @SpringBootApplication
 @RefreshScope
-public class OStockApplication {
+public class LicenseMsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OStockApplication.class, args);
+        SpringApplication.run(LicenseMsApplication.class, args);
     }
 
 }

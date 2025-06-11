@@ -16,7 +16,7 @@ public class LicenseService {
     private final LicenseRepository licenseRepository;
     private final Props props;
 
-    public License getLicense(String licenseId, String organizationId) {
+    public License getLicense(UUID licenseId, String organizationId) {
         return licenseRepository.findByOrganizationIdAndLicenseId(organizationId, licenseId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         String.format(
@@ -27,7 +27,7 @@ public class LicenseService {
     }
 
     public License createLicense(License license) {
-        license.setLicenseId(UUID.randomUUID().toString());
+        license.setLicenseId(UUID.randomUUID());
         licenseRepository.save(license);
         return license.withComment(props.getProperty());
     }

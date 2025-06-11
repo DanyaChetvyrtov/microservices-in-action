@@ -8,6 +8,7 @@ import ru.danil.algos.ostock.model.License;
 import ru.danil.algos.ostock.service.LicenseService;
 
 import java.util.Locale;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("v1/organization/{organizationId}/license")
@@ -20,26 +21,25 @@ public class LicenseController {
             @PathVariable("organizationId") String organizationId,
             @PathVariable("licenseId") String licenseId
     ) {
-        return new ResponseEntity<>(licenseService.getLicense(licenseId, organizationId), HttpStatus.OK);
+        return new ResponseEntity<>(licenseService.getLicense(UUID.fromString(licenseId), organizationId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<String> createLicense(
-            @PathVariable String organizationId,
+    public ResponseEntity<License> createLicense(
             @RequestBody License request,
             @RequestHeader(value = "Accept-Language", required = false)
             Locale locale
     ) {
         System.out.println(locale);
-        return new ResponseEntity<>(licenseService.createLicense(request, organizationId, locale), HttpStatus.CREATED);
+        return new ResponseEntity<>(licenseService.createLicense(request), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<String> updateLicense(
+    public ResponseEntity<License> updateLicense(
             @PathVariable String organizationId,
             @RequestBody License license
     ) {
-        return new ResponseEntity<>(licenseService.updateLicense(license, organizationId), HttpStatus.OK);
+        return new ResponseEntity<>(licenseService.updateLicense(license), HttpStatus.OK);
     }
 
     @DeleteMapping("/{licenseId}")
@@ -47,6 +47,6 @@ public class LicenseController {
             @PathVariable String organizationId,
             @PathVariable String licenseId
     ) {
-        return new ResponseEntity<>(licenseService.deleteLicense(licenseId, organizationId), HttpStatus.OK);
+        return new ResponseEntity<>(licenseService.deleteLicense(licenseId), HttpStatus.OK);
     }
 }

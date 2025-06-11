@@ -5,18 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
+import java.util.UUID;
 
 @Data
 @Builder
 @Entity
-@Table(name = "license")
+@Table(name = "license", schema = "license_schema")
 @NoArgsConstructor
 @AllArgsConstructor
 public class License {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "license_id", nullable = false)
-    private String licenseId;
+    @GeneratedValue(strategy = GenerationType.UUID) // Изменили генерацию
+    @Column(name = "license_id", columnDefinition = "UUID", nullable = false)
+    private UUID licenseId;  // Теперь тип UUID (не String и не Long)
+    @Column(name = "description")
     private String description;
     @Column(name = "organization_id", nullable = false)
     private String organizationId;
