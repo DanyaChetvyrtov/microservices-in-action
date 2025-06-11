@@ -31,7 +31,6 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
-    implementation("org.liquibase:liquibase-core")
     implementation("org.postgresql:postgresql")
 
     compileOnly("org.projectlombok:lombok")

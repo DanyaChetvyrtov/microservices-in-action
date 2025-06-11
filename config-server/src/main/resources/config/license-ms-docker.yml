@@ -1,8 +1,0 @@
-example:
-  property: I AM DOCKER
-
-spring:
-  datasource:
-    url: jdbc:postgresql://postgres:5432/license_db?currentSchema=license_schema
-    username: postgres
-    password: root
