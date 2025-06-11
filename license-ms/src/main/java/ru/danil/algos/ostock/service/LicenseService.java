@@ -3,56 +3,45 @@ package ru.danil.algos.ostock.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import ru.danil.algos.ostock.config.Props;
 import ru.danil.algos.ostock.model.License;
+import ru.danil.algos.ostock.repository.LicenseRepository;
 
-import java.util.Locale;
-import java.util.Random;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class LicenseService {
     private final MessageSource messageSource;
+    private final LicenseRepository licenseRepository;
+    private final Props props;
 
     public License getLicense(String licenseId, String organizationId) {
-        return License.builder()
-                .id(new Random().nextInt(100))
-                .licenseId(licenseId)
-                .organizationId(organizationId)
-                .productName("Ostock")
-                .description("Software product")
-                .licenseType("full")
-                .build();
+        return licenseRepository.findByOrganizationIdAndLicenseId(organizationId, licenseId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format(
+                                messageSource.getMessage(
+                                        "license.search.error.message", null, null)
+                                , organizationId, licenseId)
+                )).withComment(props.getProperty());
     }
 
-    public String createLicense(License license, String organizationId, Locale locale) {
-        String responseMessage = null;
-        if (license != null) {
-            license.setOrganizationId(organizationId);
-            responseMessage = String.format(
-                    messageSource.getMessage(
-                            "license.create.message", null, locale
-                    ), license
-            );
-        }
-        return responseMessage;
+    public License createLicense(License license) {
+        license.setLicenseId(UUID.randomUUID().toString());
+        licenseRepository.save(license);
+        return license.withComment(props.getProperty());
     }
 
-    public String updateLicense(License license, String organizationId) {
-        String responseMessage = null;
-        if (license != null) {
-            license.setOrganizationId(organizationId);
-            responseMessage = String.format(
-                    messageSource.getMessage(
-                            "license.create.message", null, null
-                    ), license
-            );
-        }
-        return responseMessage;
+    public License updateLicense(License license) {
+        licenseRepository.save(license);
+        return license.withComment(props.getProperty());
     }
 
-    public String deleteLicense(String licenseId, String organizationId) {
+    public String deleteLicense(String licenseId) {
+        licenseRepository.deleteById(licenseId);
         return String.format(
-                "Deleting license with id %s for the organization %s", licenseId, organizationId
+                messageSource.getMessage("Deleting license with id %s for the organization %s", null, null),
+                licenseId
         );
     }
 }
