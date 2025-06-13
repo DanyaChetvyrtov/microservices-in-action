@@ -4,14 +4,13 @@
 GET {{path}}/228/license/2
 
 ### POST request to example server
-POST {{path}}/228/license
+POST {{path}}/b67f7327-eeae-4534-aab3-67f80cfb9ac6/license
 Content-Type: application/json
 Accept-Language: ru
 
 {
-   "licenseId": "1488",
    "description": "Very cool description",
-   "organizationId": "228",
+   "organizationId": "b67f7327-eeae-4534-aab3-67f80cfb9ac6",
    "productName": "Cool software product",
    "licenseType": "software"
 }

@@ -1,0 +1,15 @@
+@path = http://localhost:8081/v1/organization
+
+### GET request to example server
+GET {{path}}/228/license/2
+
+### POST request to example server
+POST {{path}}
+Content-Type: application/json
+
+{
+  "name": "Test",
+  "contactName": "Test",
+  "contactEmail": "Test",
+  "contactPhone": "Test"
+}
