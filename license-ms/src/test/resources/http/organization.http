@@ -1,4 +1,10 @@
-@path = http://localhost:8080/v1/organization/
+@path = http://localhost:8080/v1/organization
 
-### GET request to example server
-GET {{path}}/228/license/2
+### GET feign client test
+GET {{path}}/b67f7327-eeae-4534-aab3-67f80cfb9ac6/license/9c658c7a-bf7e-44f3-be57-8173f8555b6b/feign
+
+### GET discovery client test
+GET {{path}}/b67f7327-eeae-4534-aab3-67f80cfb9ac6/license/9c658c7a-bf7e-44f3-be57-8173f8555b6b/discovery
+
+### GET rest client test
+GET {{path}}/b67f7327-eeae-4534-aab3-67f80cfb9ac6/license/9c658c7a-bf7e-44f3-be57-8173f8555b6b/rest

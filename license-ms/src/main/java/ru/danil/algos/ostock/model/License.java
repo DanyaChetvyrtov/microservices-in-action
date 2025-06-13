@@ -25,13 +25,14 @@ public class License {
     @Column(name = "description")
     private String description;
     @Column(name = "organization_id", nullable = false)
-    private String organizationId;
+    private UUID organizationId;
     @Column(name = "product_name", nullable = false)
     private String productName;
     @Column(name = "license_type", nullable = false)
     private String licenseType;
     @Column(name = "comment")
     private String comment;
+
     @Transient
     private String organizationName;
     @Transient

@@ -18,10 +18,10 @@ public class OrganizationDiscoveryClient {
 
     public Organization getOrganization(String organizationId) {
         RestTemplate restTemplate = new RestTemplate();
-        List<ServiceInstance> instances = discoveryClient.getInstances("organization-service");
+        List<ServiceInstance> instances = discoveryClient.getInstances("organization-ms");
 
         if (instances.isEmpty()) return null;
-        String serviceUri = String.format("%s/v1/organization/%s", instances.get(0).getUri().toString(), organizationId);
+        String serviceUri = String.format("%s/v1/organization/%s", instances.getFirst().getUri().toString(), organizationId);
 
         ResponseEntity<Organization> restExchange =
                 restTemplate.exchange(

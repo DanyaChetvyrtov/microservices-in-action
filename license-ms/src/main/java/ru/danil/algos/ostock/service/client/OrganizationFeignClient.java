@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.danil.algos.ostock.model.Organization;
 
-@FeignClient("organization-service")
+@FeignClient("organization-ms")
 public interface OrganizationFeignClient {
     @RequestMapping(
             method= RequestMethod.GET,

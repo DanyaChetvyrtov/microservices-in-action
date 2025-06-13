@@ -24,7 +24,7 @@ public class LicenseService {
     private final Props props;
 
     public License getLicense(UUID licenseId, String organizationId) {
-        return licenseRepository.findByOrganizationIdAndLicenseId(organizationId, licenseId)
+        return licenseRepository.findByOrganizationIdAndLicenseId(UUID.fromString(organizationId), licenseId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         String.format(
                                 messageSource.getMessage(
@@ -51,16 +51,18 @@ public class LicenseService {
         );
     }
 
-    public License getLicense(String licenseId, String organizationId, String clientType){
-        License license = licenseRepository
-                .findByOrganizationIdAndLicenseId(organizationId, UUID.fromString(licenseId))
-                .orElseThrow(IllegalArgumentException::new);
+    public License getLicense(String organizationId, String licenseId, String clientType){
+        System.out.println("SAAAAAAAAAAAAAAAAAAAAAAAAAU");
+        License license = licenseRepository.findByOrganizationIdAndLicenseId(UUID.fromString(organizationId), UUID.fromString(licenseId))
+                .orElseThrow(() -> new IllegalArgumentException("Something went wrong"));
 
-        if (null == license) {
+        System.out.println(license);
+        if (null == license)
             throw new IllegalArgumentException(String.format(messageSource.getMessage("license.search.error.message", null, null),licenseId, organizationId));
-        }
 
+        System.out.println(license);
         Organization organization = retrieveOrganizationInfo(organizationId, clientType);
+        System.out.println(organization);
         if (null != organization) {
             license.setOrganizationName(organization.getName());
             license.setContactName(organization.getContactName());
