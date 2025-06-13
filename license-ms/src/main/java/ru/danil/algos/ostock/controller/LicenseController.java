@@ -49,4 +49,12 @@ public class LicenseController {
     ) {
         return new ResponseEntity<>(licenseService.deleteLicense(licenseId), HttpStatus.OK);
     }
+
+    @GetMapping("/{licenseId}/{clientType}")
+    public License getLicensesWithClient(
+            @PathVariable String organizationId,
+            @PathVariable String licenseId,
+            @PathVariable String clientType) {
+        return licenseService.getLicense(organizationId, licenseId, clientType);
+    }
 }

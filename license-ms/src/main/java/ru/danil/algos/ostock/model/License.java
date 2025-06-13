@@ -1,5 +1,6 @@
 package ru.danil.algos.ostock.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "license", schema = "license_schema")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
 @AllArgsConstructor
 public class License {
@@ -30,6 +32,14 @@ public class License {
     private String licenseType;
     @Column(name = "comment")
     private String comment;
+    @Transient
+    private String organizationName;
+    @Transient
+    private String contactName;
+    @Transient
+    private String contactPhone;
+    @Transient
+    private String contactEmail;
 
     public License withComment(String comment) {
         this.setComment(comment);
