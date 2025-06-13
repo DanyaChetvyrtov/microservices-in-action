@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface LicenseRepository extends CrudRepository<License, String> {
+public interface LicenseRepository extends CrudRepository<License, UUID> {
     List<License> findByOrganizationId(String organizationId);
     Optional<License> findByOrganizationIdAndLicenseId(String organizationId, UUID licenseId);
 }

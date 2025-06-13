@@ -38,7 +38,7 @@ public class LicenseService {
     }
 
     public String deleteLicense(String licenseId) {
-        licenseRepository.deleteById(licenseId);
+        licenseRepository.deleteById(UUID.fromString(licenseId));
         return String.format(
                 messageSource.getMessage("Deleting license with id %s for the organization %s", null, null),
                 licenseId
