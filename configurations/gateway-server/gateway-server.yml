@@ -15,7 +15,7 @@ spring:
         webflux:
           routes:
             - id: organization-service
-              uri: lb://organization-service
+              uri: lb://organization-ms
               predicates:
                 - Path=/organization/**
               filters:
