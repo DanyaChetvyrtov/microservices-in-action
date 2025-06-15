@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @RefreshScope
 @EnableFeignClients
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 public class LicenseMsApplication {
 
     public static void main(String[] args) {

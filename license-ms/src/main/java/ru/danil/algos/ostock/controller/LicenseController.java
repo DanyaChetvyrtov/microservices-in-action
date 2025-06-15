@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.danil.algos.ostock.model.License;
 import ru.danil.algos.ostock.service.LicenseService;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -21,21 +22,21 @@ public class LicenseController {
             @PathVariable String organizationId,
             @PathVariable String licenseId,
             @PathVariable String clientType) {
-        System.out.println("------------------------------------------------------------------------------");
-        System.out.println(organizationId);
-        System.out.println(licenseId);
-        System.out.println(clientType);
-        System.out.println("------------------------------------------------------------------------------");
         return licenseService.getLicense(organizationId, licenseId, clientType);
     }
 
-//    @GetMapping("/{licenseId}")
-//    public ResponseEntity<License> getLicense(
-//            @PathVariable("organizationId") String organizationId,
-//            @PathVariable("licenseId") String licenseId
-//    ) {
-//        return new ResponseEntity<>(licenseService.getLicense(UUID.fromString(licenseId), organizationId), HttpStatus.OK);
-//    }
+    @GetMapping("/{licenseId}")
+    public ResponseEntity<License> getLicense(
+            @PathVariable("organizationId") String organizationId,
+            @PathVariable("licenseId") String licenseId
+    ) {
+        return new ResponseEntity<>(licenseService.getLicense(UUID.fromString(licenseId), organizationId), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<License>> getLicenses(@PathVariable String organizationId) {
+        return new ResponseEntity<>(licenseService.getLicensesByOrganizationId(UUID.fromString(organizationId)), HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<License> createLicense(

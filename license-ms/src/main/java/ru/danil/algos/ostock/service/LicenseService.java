@@ -1,5 +1,9 @@
 package ru.danil.algos.ostock.service;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -11,7 +15,11 @@ import ru.danil.algos.ostock.service.client.OrganizationDiscoveryClient;
 import ru.danil.algos.ostock.service.client.OrganizationFeignClient;
 import ru.danil.algos.ostock.service.client.OrganizationRestTemplateClient;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.TimeoutException;
 
 @Service
 @RequiredArgsConstructor
@@ -51,18 +59,14 @@ public class LicenseService {
         );
     }
 
-    public License getLicense(String organizationId, String licenseId, String clientType){
-        System.out.println("SAAAAAAAAAAAAAAAAAAAAAAAAAU");
+    public License getLicense(String organizationId, String licenseId, String clientType) {
         License license = licenseRepository.findByOrganizationIdAndLicenseId(UUID.fromString(organizationId), UUID.fromString(licenseId))
                 .orElseThrow(() -> new IllegalArgumentException("Something went wrong"));
 
-        System.out.println(license);
         if (null == license)
-            throw new IllegalArgumentException(String.format(messageSource.getMessage("license.search.error.message", null, null),licenseId, organizationId));
+            throw new IllegalArgumentException(String.format(messageSource.getMessage("license.search.error.message", null, null), licenseId, organizationId));
 
-        System.out.println(license);
         Organization organization = retrieveOrganizationInfo(organizationId, clientType);
-        System.out.println(organization);
         if (null != organization) {
             license.setOrganizationName(organization.getName());
             license.setContactName(organization.getContactName());
@@ -89,5 +93,40 @@ public class LicenseService {
             }
             default -> organizationRestClient.getOrganization(organizationId);
         };
+    }
+
+    @CircuitBreaker(name = "licenseBreaker", fallbackMethod = "buildFallbackLicenseList")
+    @Bulkhead(name = "bulkheadLicenseService", fallbackMethod = "buildFallbackLicenseList")
+    @Retry(name = "retryLicenseService", fallbackMethod = "buildFallbackLicenseList")
+    @RateLimiter(name = "ratelimiter", fallbackMethod = "buildFallbackLicenseList")
+    public List<License> getLicensesByOrganizationId(UUID organizationId) {
+//        sleep();
+        randomlyRunLong();
+        return licenseRepository.findByOrganizationId(organizationId);
+    }
+
+    // for circuitBreaker test
+    private void randomlyRunLong() {
+        var rand = new Random();
+        int randomNum = rand.nextInt(3) + 1;
+        if (randomNum == 3) sleep();
+    }
+
+    private void sleep() {
+        try {
+            Thread.sleep(5000);
+            throw new TimeoutException();
+        } catch (InterruptedException | TimeoutException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private List<License> buildFallbackLicenseList(UUID organizationId, Throwable t) {
+        System.out.println("Fallback triggered due to: " + t.getMessage());
+        return Collections.singletonList(
+                License.builder()
+                        .organizationId(organizationId)
+                        .productName("Sorry no licensing information currently available")
+                        .build());
     }
 }
