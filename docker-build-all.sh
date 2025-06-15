@@ -18,6 +18,8 @@ build_service() {
 
 # Сборка всех микросервисов
 build_service "config-server" "danilchet/config-server-ms"
+build_service "eureka-server" "danilchet/eureka-server-ms"
 build_service "license-ms" "danilchet/license-ms"
+build_service "organization-ms" "danilchet/organization-ms"
 
 echo "All images built successfully"

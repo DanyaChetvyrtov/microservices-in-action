@@ -48,6 +48,38 @@ services:
     depends_on:
       - postgres
       - config-server
+      - eureka-server
+
+  organization-ms:
+    image: danilchet/organization-ms
+    container_name: organization-ms-container
+    ports:
+      - "8081:8081"
+    networks:
+      - microservices-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
+    depends_on:
+      - postgres
+      - config-server
+      - eureka-server
+
+
+  eureka-server:
+    image: danilchet/eureka-server-ms
+    container_name: eureka-server-container
+    ports:
+      - "8761:8761"
+    networks:
+      - microservices-net
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
+    depends_on:
+      - config-server
+
 
 networks:
   microservices-net:
