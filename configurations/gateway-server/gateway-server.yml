@@ -7,3 +7,13 @@ eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
