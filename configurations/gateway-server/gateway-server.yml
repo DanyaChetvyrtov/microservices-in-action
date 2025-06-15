@@ -13,7 +13,10 @@ spring:
     gateway:
       server:
         webflux:
-          discovery:
-            locator:
-              enabled: true
-              lower-case-service-id: true
+          routes:
+            - id: organization-service
+              uri: lb://organization-service
+              predicates:
+                - Path=/organization/**
+              filters:
+                - RewritePath=/organization/(?<path>.*), /$\{path}
