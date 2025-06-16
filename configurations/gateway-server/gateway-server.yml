@@ -20,3 +20,12 @@ spring:
                 - Path=/organization/**
               filters:
                 - RewritePath=/organization/(?<path>.*), /$\{path}
+
+management:
+  endpoint:
+    gateway:
+      access: read_only
+  endpoints:
+    web:
+      exposure:
+        include: gateway
