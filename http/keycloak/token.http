@@ -1,12 +1,22 @@
 @client_id = ostock
 @client_secret = TAUsQhK3sSV4wTOrf31s3lUzpAq9p9lg
-@username = danil.chet
-@password = root
+@admin_username = danil.chet
+@admin_password = root
 #@base64Credentials = {{username}}:{{password}}
 
-### POST token
+### POST token admin user
+
 POST http://localhost:8300/realms/spima-realm/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
 #grant_type=client_credentials&client_id={{client_id}}&client_secret={{client_secret}}
-grant_type=password&client_id={{client_id}}&client_secret={{client_secret}}&username={{username}}&password={{password}}
+grant_type=password&client_id={{client_id}}&client_secret={{client_secret}}&username={{admin_username}}&password={{admin_password}}
+
+### POST token simple user
+@simple_username = pasha.pet
+@simple_password = root
+POST http://localhost:8300/realms/spima-realm/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+#grant_type=client_credentials&client_id={{client_id}}&client_secret={{client_secret}}
+grant_type=password&client_id={{client_id}}&client_secret={{client_secret}}&username={{simple_username}}&password={{simple_password}}
