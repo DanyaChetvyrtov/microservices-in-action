@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: vault, git
+
+  cloud:
+    config:
+      server:
+        vault:
+          host: vault-container
+          kv-version: 2
+          token: myroot
+        git:
+          uri: https://github.com/DanyaChetvyrtov/microservices-in-action.git
+          search-paths: configurations/{application}
