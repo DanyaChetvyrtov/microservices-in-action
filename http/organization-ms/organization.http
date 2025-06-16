@@ -1,0 +1,16 @@
+@path = http://localhost:8081/v1/organization
+
+### GET request to example server
+GET {{path}}/b67f7327-eeae-4534-aab3-67f80cfb9ac6
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJjNDZhOGM3My05NGFhLTQ5MmEtODk3Yi0xYTg4OGVlYmQxNmEifQ.eyJleHAiOjE3NTAwODAzMDEsImlhdCI6MTc1MDA3ODUwMSwianRpIjoiMjZiZmY2ZDItOWE0My00NDE0LWFhMmItMTY3NTAxZTUzN2JmIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MzAwL3JlYWxtcy9zcGltYS1yZWFsbSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODMwMC9yZWFsbXMvc3BpbWEtcmVhbG0iLCJzdWIiOiI0ZWMyNDdmMC1hOGY1LTQxNjEtOTg0NS0zMjIwNmRlNDdiMDgiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoib3N0b2NrIiwic2lkIjoiOGJlZDBjOGEtZDBhOC00ZjAzLThjYTctNWEwNGEyMzBiNDIwIiwic2NvcGUiOiJ3ZWItb3JpZ2lucyBzZXJ2aWNlX2FjY291bnQgYWNyIGVtYWlsIHJvbGVzIGJhc2ljIHByb2ZpbGUifQ.wrMgRR-LewESjyb0-p7muurQCNpZwNnVIA-CdsgaOb07e29jPx4E7QTPVNAz60jiweT1wLE0E6pcWhZGftruCQ
+
+### POST request to example server
+POST {{path}}
+Content-Type: application/json
+
+{
+  "name": "Test",
+  "contactName": "Test",
+  "contactEmail": "Test",
+  "contactPhone": "Test"
+}
