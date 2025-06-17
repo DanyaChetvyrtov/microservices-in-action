@@ -1,0 +1,40 @@
+@path = http://localhost:8080/v1/organization
+#@path = http://localhost:8072/license/v1/organization
+@organization-id = 94271f00-fed3-45a4-87bf-1b5443fd1bb4
+@token = eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxQnBjaldMYTBvTU9uT1FfMUhHVnN6RncxSlI0bklZZHkxU0ZaZW9TelBJIn0.eyJleHAiOjE3NTAxODM1OTMsImlhdCI6MTc1MDE4MzI5MywianRpIjoib25ydHJvOjI3NTc2NDgxLTdjNjktNDQ5YS1hNTY3LWUyMzNhM2QwNzExZSIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODMwMC9yZWFsbXMvc3BpbWEtcmVhbG0iLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiNGVjMjQ3ZjAtYThmNS00MTYxLTk4NDUtMzIyMDZkZTQ3YjA4IiwidHlwIjoiQmVhcmVyIiwiYXpwIjoib3N0b2NrIiwic2lkIjoiNmJhN2UwODUtZWQ2Yy00YjNlLTgxMmYtODAzZTExMDk2NjU1IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIqIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIiwiZGVmYXVsdC1yb2xlcy1zcGltYS1yZWFsbSJdfSwicmVzb3VyY2VfYWNjZXNzIjp7Im9zdG9jayI6eyJyb2xlcyI6WyJBRE1JTiJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJEYW5pbCBTZW1lbm92IiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGFuaWwuY2hldCIsImdpdmVuX25hbWUiOiJEYW5pbCIsImZhbWlseV9uYW1lIjoiU2VtZW5vdiIsImVtYWlsIjoiZGFkYUBkYWRhLmRhIn0.Oz70VjVEllNJchQTlFR23LpCdMn1NcuX5VfbwHYx1CX9jEDINPyjbhx5ppErVwCYlhm7r1xNdTWDQ__wMFB_4pPnsDq32g_uc1B7EVXMojQnX7oMHCnj_4IhTQyzmS-U8UC6-bL1xWcMnnUWM7xfoXalHWhCxzHq2G3PmBEPFMU6DDxOltlf5chzcM6GxOn5Gh6IdLjrXCMCGrjfnlLwsyyFIMIEDAw23DRma4tLkzt12tTKxNG5loAP9FkL6VTgOWc92vDDz9g6w4pRPy1FoDNPsjLWfZJT8BVlS4rqs1Yu4j01RF_bsFtJmIkcz3RWlwg08TKk4bM9jazoz75fhA
+
+### GET request to example server
+GET {{path}}/{{organization-id}}/license/b02c3453-5acc-4942-a809-8bd04c8a84ee
+Authorization: Bearer {{token}}
+
+### GET request license & client
+GET {{path}}/{{organization-id}}/license/b02c3453-5acc-4942-a809-8bd04c8a84ee/feign
+Authorization: Bearer {{token}}
+
+### POST request to example server
+POST {{path}}/{{organization-id}}/license
+Content-Type: application/json
+Accept-Language: ru
+Authorization: Bearer {{token}}
+
+{
+  "description": "VERY cool description",
+  "organizationId": "{{organization-id}}",
+  "productName": "VERY Cool software product",
+  "licenseType": "software"
+}
+
+### PUT request to example server
+PUT {{path}}/{{organization-id}}/license
+Content-Type: application/json
+
+{
+  "licenseId": "1488",
+  "description": "Very cool description",
+  "organizationId": "228",
+  "productName": "Cool software product",
+  "licenseType": "software"
+}
+
+### DELETE request to example server
+DELETE {{path}}/{{organization-id}}/license
