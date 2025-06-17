@@ -25,3 +25,49 @@ management:
 
 server:
   port: 8080
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      licenseBreaker:
+        register-health-indicator: true
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        permitted-number-of-calls-in-half-open-state: 3
+        wait-duration-in-open-state: 10s
+        failure-rate-threshold: 50
+        automatic-transition-from-open-to-half-open-enabled: true
+        sliding-window-type: count_based
+        #        record-exceptions:
+        #          - java.util.concurrent.TimeoutException
+        slow-call-rate-threshold: 50 # процент медленных вызовов для перехода в OPEN
+        slow-call-duration-threshold: 1s # вызовы медленнее 1 секунды считаются медленными
+
+  bulkhead:
+    instances:
+      bulkheadLicenseService:
+        max-wait-duration: 10ms
+        max-concurrent-calls: 20
+  thread-pool-bulkhead:
+    instances:
+      bulkheadLicenseService:
+        max-thread-pool-size: 1
+        core-thread-pool-size: 1
+        queue-capacity: 1
+        keep-alive-duration: 20ms
+
+  retry:
+    instances:
+      retryLicenseService:
+        max-attempts: 5
+        wait-duration: 2s
+        retry-exceptions:
+          - java.util.concurrent.TimeoutException
+
+  ratelimiter:
+    instances:
+      rateLimiterLicenseService:
+        timeout-duration: 1000ms
+        limit-refresh-period: 5000
+        limit-for-period: 5
