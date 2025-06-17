@@ -10,6 +10,13 @@ spring:
   config:
     import: "configserver:"
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8300/realms/spima-realm
+          jwk-set-uri: http://localhost:8300/realms/spima-realm/protocol/openid-connect/certs
+
 resilience4j:
   circuitbreaker:
     instances:

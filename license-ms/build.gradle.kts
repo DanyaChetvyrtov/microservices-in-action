@@ -24,6 +24,7 @@ repositories {
 }
 
 extra["springCloudVersion"] = "2025.0.0"
+extra["keycloakVersion"] = "25.0.3"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -34,9 +35,14 @@ dependencies {
     // discovery
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+    implementation("org.springframework.security:spring-security-oauth2-client")
 
     // resilience4j
     implementation("org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j")
+
+    implementation("org.keycloak:keycloak-spring-boot-starter:${property("keycloakVersion")}")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
     implementation("org.postgresql:postgresql")
 
@@ -51,6 +57,7 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+        mavenBom("org.keycloak.bom:keycloak-adapter-bom:${property("keycloakVersion")}")
     }
 }
 
