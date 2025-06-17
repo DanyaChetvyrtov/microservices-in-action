@@ -17,20 +17,12 @@ import java.util.UUID;
 public class LicenseController {
     private final LicenseService licenseService;
 
-    @GetMapping("/{licenseId}/{clientType}")
-    public License getLicensesWithClient(
+    @GetMapping("/{licenseId}")
+    public ResponseEntity<License> getLicensesWithClient(
             @PathVariable String organizationId,
             @PathVariable String licenseId,
-            @PathVariable String clientType) {
-        return licenseService.getLicense(organizationId, licenseId, clientType);
-    }
-
-    @GetMapping("/{licenseId}")
-    public ResponseEntity<License> getLicense(
-            @PathVariable("organizationId") String organizationId,
-            @PathVariable("licenseId") String licenseId
-    ) {
-        return new ResponseEntity<>(licenseService.getLicense(UUID.fromString(licenseId), organizationId), HttpStatus.OK);
+            @RequestParam(name = "extended", required = false, defaultValue = "false") boolean withOrganization) {
+        return new ResponseEntity<>(licenseService.getLicense(organizationId, licenseId, withOrganization), HttpStatus.OK);
     }
 
     @GetMapping

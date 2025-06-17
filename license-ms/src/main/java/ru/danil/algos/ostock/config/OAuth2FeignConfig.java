@@ -11,14 +11,12 @@ public class OAuth2FeignConfig {
         return requestTemplate -> {
             // Получаем токен из контекста безопасности
             var authentication = SecurityContextHolder.getContext().getAuthentication();
-            System.out.println("Current authentication: " + authentication);
             if (authentication instanceof JwtAuthenticationToken jwtToken) {
-                System.out.println("Current token: " + jwtToken.getToken());
                 requestTemplate.header(
                         "Authorization",
                         "Bearer " + jwtToken.getToken().getTokenValue()
                 );
-            }else System.out.println("Authorization header not present");
+            }
         };
     }
 }

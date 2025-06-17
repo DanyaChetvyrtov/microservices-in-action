@@ -11,9 +11,7 @@ import ru.danil.algos.ostock.config.Props;
 import ru.danil.algos.ostock.model.License;
 import ru.danil.algos.ostock.model.Organization;
 import ru.danil.algos.ostock.repository.LicenseRepository;
-import ru.danil.algos.ostock.service.client.OrganizationDiscoveryClient;
 import ru.danil.algos.ostock.service.client.OrganizationFeignClient;
-import ru.danil.algos.ostock.service.client.OrganizationRestTemplateClient;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,19 +24,22 @@ import java.util.concurrent.TimeoutException;
 public class LicenseService {
     private final MessageSource messageSource;
     private final LicenseRepository licenseRepository;
-    private final OrganizationDiscoveryClient organizationDiscoveryClient;
-    private final OrganizationRestTemplateClient organizationRestClient;
     private final OrganizationFeignClient organizationFeignClient;
     private final Props props;
 
-    public License getLicense(UUID licenseId, String organizationId) {
-        return licenseRepository.findByOrganizationIdAndLicenseId(UUID.fromString(organizationId), licenseId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        String.format(
-                                messageSource.getMessage(
-                                        "license.search.error.message", null, null)
-                                , organizationId, licenseId)
-                )).withComment(props.getProperty());
+    public License getLicense(String organizationId, String licenseId, boolean withOrganization) {
+        var organizationUUID = UUID.fromString(organizationId);
+        var licenseUUID = UUID.fromString(licenseId);
+
+        var license = licenseRepository.findByOrganizationIdAndLicenseId(organizationUUID, licenseUUID)
+                .orElseThrow(() -> new IllegalArgumentException(convertedResponse(organizationId, licenseId)));
+
+        if (!withOrganization) return license;
+
+        Organization organization = retrieveOrganizationInfo(organizationId);
+        if (null != organization) addOrganizationFields(license, organization);
+
+        return license.withComment(props.getProperty());
     }
 
     public License createLicense(License license) {
@@ -59,40 +60,8 @@ public class LicenseService {
         );
     }
 
-    public License getLicense(String organizationId, String licenseId, String clientType) {
-        License license = licenseRepository.findByOrganizationIdAndLicenseId(UUID.fromString(organizationId), UUID.fromString(licenseId))
-                .orElseThrow(() -> new IllegalArgumentException("Something went wrong"));
-
-        if (null == license)
-            throw new IllegalArgumentException(String.format(messageSource.getMessage("license.search.error.message", null, null), licenseId, organizationId));
-
-        Organization organization = retrieveOrganizationInfo(organizationId, clientType);
-        if (null != organization) {
-            license.setOrganizationName(organization.getName());
-            license.setContactName(organization.getContactName());
-            license.setContactEmail(organization.getContactEmail());
-            license.setContactPhone(organization.getContactPhone());
-        }
-
-        return license.withComment(props.getProperty());
-    }
-
-    private Organization retrieveOrganizationInfo(String organizationId, String clientType) {
-        return switch (clientType) {
-            case "feign" -> {
-                System.out.println("I am using the feign client");
-                yield organizationFeignClient.getOrganization(organizationId);
-            }
-            case "rest" -> {
-                System.out.println("I am using the rest client");
-                yield organizationRestClient.getOrganization(organizationId);
-            }
-            case "discovery" -> {
-                System.out.println("I am using the discovery client");
-                yield organizationDiscoveryClient.getOrganization(organizationId);
-            }
-            default -> organizationRestClient.getOrganization(organizationId);
-        };
+    private Organization retrieveOrganizationInfo(String organizationId) {
+        return organizationFeignClient.getOrganization(organizationId);
     }
 
     @CircuitBreaker(name = "licenseBreaker", fallbackMethod = "buildFallbackLicenseList")
@@ -129,4 +98,19 @@ public class LicenseService {
                         .productName("Sorry no licensing information currently available")
                         .build());
     }
+
+    private String convertedResponse(String organizationId, String licenseId) {
+        return String.format(
+                messageSource.getMessage("license.search.error.message", null, null),
+                organizationId, licenseId
+        );
+    }
+
+    private void addOrganizationFields(License license, Organization organization) {
+        license.setOrganizationName(organization.getName());
+        license.setContactName(organization.getContactName());
+        license.setContactEmail(organization.getContactEmail());
+        license.setContactPhone(organization.getContactPhone());
+    }
+
 }
