@@ -1,6 +1,7 @@
 package ru.danil.algos.ostock.config;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -24,8 +25,11 @@ import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @EnableMethodSecurity(jsr250Enabled = true, securedEnabled = true)
 public class SecurityConfig {
+
+    private final JwtConfigurationProps jwtConfigurationProps;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -69,7 +73,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        String jwkSetUri = "http://localhost:8300/realms/spima-realm/protocol/openid-connect/certs";
+        String jwkSetUri = jwtConfigurationProps.getJwkSetUri();
         return NimbusJwtDecoder
                 .withJwkSetUri(jwkSetUri)
                 .jwsAlgorithm(SignatureAlgorithm.RS256)
