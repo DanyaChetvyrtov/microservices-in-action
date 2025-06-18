@@ -2,12 +2,19 @@ example:
   property: I AM THE DEFAULT
 
 spring:
+  sql:
+    init:
+      schema-locations: classpath:/sql/schema.sql # папку храню в resources
+      mode: always
+
   jpa:
     hibernate:
-      ddl-auto: validate # Безопаснее, чем 'none'
+      ddl-auto: update # Безопаснее, чем 'none'
     show-sql: true
     properties:
       hibernate:
+        default_schema: organization_schema
+        format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 eureka:

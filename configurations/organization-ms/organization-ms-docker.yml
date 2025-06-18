@@ -11,10 +11,12 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://vault:8300/realms/spima-realm
-          jwk-set-uri: http://vault:8300/realms/spima-realm/protocol/openid-connect/certs
+          issuer-uri: http://keycloak:8080/realms/spima-realm
+          jwk-set-uri: http://keycloak:8080/realms/spima-realm/protocol/openid-connect/certs
 
 eureka:
+  instance:
+    prefer-ip-address: false
   client:
     service-url:
       default-zone: http://eureka-server:8761/eureka/

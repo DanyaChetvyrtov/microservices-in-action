@@ -9,22 +9,6 @@ spring:
     testWhileIdle: true
     validationQuery: SELECT 1
 
-  sql:
-    init:
-      schema-locations: classpath:/sql/schema.sql # папку храню в resources
-      mode: always
-
-  jpa:
-#    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        default_schema: license_schema
-        format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-
   security:
     oauth2:
       resourceserver:
@@ -33,6 +17,8 @@ spring:
           jwk-set-uri: http://localhost:8300/realms/spima-realm/protocol/openid-connect/certs
 
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
-    service-url:
+    serviceUrl:
       default-zone: http://localhost:8761/eureka/

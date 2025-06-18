@@ -2,8 +2,6 @@ server:
   port: 8761
 
 eureka:
-  instance:
-    hostname: localhost # имя хоста, где размещается экземпляр службы eureka.т.е для докера нужно будет менять
   client:
     register-with-eureka: false
     fetch-registry: false

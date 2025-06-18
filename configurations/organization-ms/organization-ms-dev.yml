@@ -9,22 +9,6 @@ spring:
     testWhileIdle: true
     validationQuery: SELECT 1
 
-  sql:
-    init:
-      schema-locations: classpath:/sql/schema.sql # папку храню в resources
-      mode: always
-
-  jpa:
-    #    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        default_schema: organization_schema
-        format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-
   security:
     oauth2:
       resourceserver:
