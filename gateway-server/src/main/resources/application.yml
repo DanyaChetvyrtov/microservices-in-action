@@ -10,9 +10,3 @@ spring:
 
   config:
     import: "configserver:"
-
-logging:
-  level:
-    com.netflix: WARN
-    org.springframework.web: WARN
-    com.optimagrowth: DEBUG

@@ -1,0 +1,4 @@
+@path = http://localhost:8072/organization/v1/organization
+
+### GET request to example server
+GET {{path}}/b67f7327-eeae-4534-aab3-67f80cfb9ac6

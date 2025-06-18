@@ -7,6 +7,13 @@ spring:
     username: postgres
     password: root
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://vault:8300/realms/spima-realm
+          jwk-set-uri: http://vault:8300/realms/spima-realm/protocol/openid-connect/certs
+
 eureka:
   client:
     service-url:

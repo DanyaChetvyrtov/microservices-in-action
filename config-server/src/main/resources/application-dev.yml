@@ -3,6 +3,6 @@ spring:
     config:
       server:
         vault:
-          host: vault
+          host: localhost
           kv-version: 2
           token: myroot

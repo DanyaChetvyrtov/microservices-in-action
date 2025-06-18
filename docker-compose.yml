@@ -30,10 +30,6 @@ services:
     command: start-dev  # <-- Это критически важно добавить
 #    restart: always
     environment:
-#      KEYCLOAK_USER: admin
-#      KEYCLOAK_PASSWORD: admin
-#      KC_BOOTSTRAP_ADMIN_USERNAME: admin
-#      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_PROXY: edge
@@ -69,6 +65,20 @@ services:
     networks:
       - microservices-net
     environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
+    depends_on:
+      - config-server
+
+  gateway:
+    image: danilchet/gateway-ms
+    container_name: gateway-container
+    ports:
+      - "8072:8072"
+    networks:
+      - microservices-net
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CLOUD_CONFIG_URI=http://config-server:8071
       - SPRING_CONFIG_IMPORT=configserver:http://config-server:8071
     depends_on:
