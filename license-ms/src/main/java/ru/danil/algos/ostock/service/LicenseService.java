@@ -5,6 +5,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ru.danil.algos.ostock.config.Props;
@@ -20,11 +21,13 @@ import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class LicenseService {
     private final MessageSource messageSource;
     private final LicenseRepository licenseRepository;
     private final OrganizationFeignClient organizationFeignClient;
+    private final RedisService redisService;
     private final Props props;
 
     public License getLicense(String organizationId, String licenseId, boolean withOrganization) {
@@ -36,8 +39,20 @@ public class LicenseService {
 
         if (!withOrganization) return license;
 
-        Organization organization = retrieveOrganizationInfo(organizationId);
-        if (null != organization) addOrganizationFields(license, organization);
+//        Organization organization = retrieveOrganizationInfo(organizationId);
+        Organization organization = redisService.getValue(organizationId);
+        if (organization == null) {
+            log.debug("Organization with id {} was not found in redis", organizationId);
+            organization = retrieveOrganizationInfo(organizationId);
+            if (organization != null) {
+                log.debug("Organization with id {} was not found in organization-ms", organizationId);
+                organization.setId(organizationId);
+                redisService.setValue(organization);
+            }
+            log.debug("Organization with id {} was successfully received from organization-ms", organizationId);
+        }
+
+        if (organization != null) addOrganizationFields(license, organization);
 
         return license.withComment(props.getProperty());
     }
@@ -55,7 +70,7 @@ public class LicenseService {
     public String deleteLicense(String licenseId) {
         licenseRepository.deleteById(UUID.fromString(licenseId));
         return String.format(
-                messageSource.getMessage("Deleting license with id %s for the organization %s", null, null),
+                messageSource.getMessage("Deleting license with id %s", null, null),
                 licenseId
         );
     }

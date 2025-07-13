@@ -22,3 +22,13 @@ spring:
             spring.json.value.default.type: ru.danil.algos.ostock.kafkaTest.model
   config:
     import: "configserver:"
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+logging:
+  level:
+    ru.danil.algos.ostock: DEBUG
+

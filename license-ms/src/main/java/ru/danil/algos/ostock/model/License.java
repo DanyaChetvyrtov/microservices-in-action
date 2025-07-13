@@ -19,9 +19,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class License {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID) // Изменили генерацию
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "license_id", columnDefinition = "UUID", nullable = false)
-    private UUID licenseId;  // Теперь тип UUID (не String и не Long)
+    private UUID licenseId;
     @Column(name = "description")
     private String description;
     @Column(name = "organization_id", nullable = false)

@@ -32,6 +32,9 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
+    // redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+
     // kafka
     //	implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
     implementation("org.springframework.cloud:spring-cloud-stream")
