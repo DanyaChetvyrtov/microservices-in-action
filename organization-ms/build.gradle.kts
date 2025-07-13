@@ -32,6 +32,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 
+	// kafka
+	//	implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
+	implementation("org.springframework.cloud:spring-cloud-stream")
+	implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka")
+
 	implementation("org.keycloak:keycloak-spring-boot-starter:${property("keycloakVersion")}")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 

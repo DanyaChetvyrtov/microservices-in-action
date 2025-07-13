@@ -7,5 +7,16 @@ spring:
     config:
       uri: http://localhost:8071
       fail-fast: true
+    stream:
+      bindings:
+        mySource-in-0:
+          destination: test-topic
+          group: my-consumer-group
+      kafka:
+        binder:
+          brokers: localhost:9092
+          producer-properties:
+            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+            value.serializer: org.apache.kafka.common.serialization.StringSerializer
   config:
     import: "configserver:"

@@ -7,5 +7,22 @@ spring:
     config:
       uri: http://localhost:8071
       fail-fast: true
+    stream:
+      bindings:
+        mySource-out-0:
+          destination: test-topic
+          producer:
+            partition-count: 1
+            use-native-encoding: true
+            header-mode: none
+      kafka:
+        binder:
+          brokers: localhost:9092
+          auto-create-topics: false # Отключаем, т.к. топик создан вручную
+          producer-properties:
+            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+            value.serializer: org.apache.kafka.common.serialization.StringSerializer
+      pollable-source: none
+
   config:
     import: "configserver:"

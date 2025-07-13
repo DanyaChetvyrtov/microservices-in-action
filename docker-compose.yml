@@ -45,6 +45,58 @@ services:
         aliases:
           - "keycloak"
 
+
+  kafka:
+    image: confluentinc/cp-kafka:7.8.0
+    hostname: kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"  # Для внешних подключений
+      - "9093:9093"  # Для контроллера
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_BROKER_ID: 1
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka:9093'
+      KAFKA_LISTENERS: 'INTERNAL://kafka:29092,CONTROLLER://kafka:9093,EXTERNAL://0.0.0.0:9092'
+      KAFKA_ADVERTISED_LISTENERS: 'INTERNAL://kafka:29092,EXTERNAL://localhost:9092'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT'
+      KAFKA_INTER_BROKER_LISTENER_NAME: 'INTERNAL'
+      KAFKA_CONTROLLER_LISTENER_NAMES: 'CONTROLLER'
+      CLUSTER_ID: 'EmptNWtoR4GGWx-BH6nGLQ'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_DEFAULT_REPLICATION_FACTOR: 1
+      KAFKA_MIN_INSYNC_REPLICAS: 1
+    volumes:
+      - ./kafka-data:/var/lib/kafka/data
+    networks:
+      - microservices-net
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-cluster-ui
+    ports:
+      - "8880:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+    depends_on:
+      - kafka
+    networks:
+      - microservices-net
+
+  redis-server:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      microservices-net:
+        aliases:
+          - "redis"
+
+########## main ms's ###########################################################################
+
   config-server:
     image: danilchet/config-server-ms
     container_name: config-server-container
@@ -54,8 +106,6 @@ services:
       - "8071:8071"
     networks:
       - microservices-net
-    depends_on:
-      - postgres
 
   eureka-server:
     image: danilchet/eureka-server-ms

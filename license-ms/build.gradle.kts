@@ -32,6 +32,11 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
+    // kafka
+    //	implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
+    implementation("org.springframework.cloud:spring-cloud-stream")
+    implementation("org.springframework.cloud:spring-cloud-stream-binder-kafka")
+
     // discovery
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
