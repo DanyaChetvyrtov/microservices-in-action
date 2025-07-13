@@ -3,8 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/BOOK_SpringMicroservicesInAction.iml" filepath="$PROJECT_DIR$/.idea/BOOK_SpringMicroservicesInAction.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gateway-server.test.iml" filepath="$PROJECT_DIR$/.idea/modules/gateway-server.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/license-ms.main.iml" filepath="$PROJECT_DIR$/.idea/modules/license-ms.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/organization-ms.test.iml" filepath="$PROJECT_DIR$/.idea/modules/organization-ms.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/organization-ms.main.iml" filepath="$PROJECT_DIR$/.idea/modules/organization-ms.main.iml" />
     </modules>
   </component>
 </project>
