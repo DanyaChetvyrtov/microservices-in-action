@@ -16,7 +16,9 @@ spring:
         binder:
           brokers: localhost:9092
           producer-properties:
-            key.serializer: org.apache.kafka.common.serialization.StringSerializer
-            value.serializer: org.apache.kafka.common.serialization.StringSerializer
+            key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value.deserializer: org.springframework.kafka.support.serializer.JsonDeserializer  # Десериализатор JSON
+            spring.json.trusted.packages: "*"  # Разрешаем десериализацию любых классов (можно указать конкретный пакет)
+            spring.json.value.default.type: ru.danil.algos.ostock.kafkaTest.model
   config:
     import: "configserver:"

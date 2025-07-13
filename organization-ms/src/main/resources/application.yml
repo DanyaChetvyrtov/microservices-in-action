@@ -21,8 +21,9 @@ spring:
           auto-create-topics: false # Отключаем, т.к. топик создан вручную
           producer-properties:
             key.serializer: org.apache.kafka.common.serialization.StringSerializer
-            value.serializer: org.apache.kafka.common.serialization.StringSerializer
-      pollable-source: none
+#            value.serializer: org.apache.kafka.common.serialization.StringSerializer
+            value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+#      pollable-source: none
 
   config:
     import: "configserver:"

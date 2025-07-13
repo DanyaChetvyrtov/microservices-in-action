@@ -16,4 +16,10 @@ public class KafkaTestController {
         System.out.println("HELLLLLLLLO");
         myProducer.sendMessage("Simple test");
     }
+
+    @GetMapping("/send/obj")
+    public void testObject() {
+        System.out.println("HELLLLLLLLO for object");
+        myProducer.publishingOrganizationChange("Updated", "228");
+    }
 }
