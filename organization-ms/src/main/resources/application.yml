@@ -27,3 +27,7 @@ spring:
 
   config:
     import: "configserver:"
+
+logging:
+  level:
+    io.micrometer: DEBUG

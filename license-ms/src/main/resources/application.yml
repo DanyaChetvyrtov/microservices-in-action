@@ -31,4 +31,4 @@ spring:
 logging:
   level:
     ru.danil.algos.ostock: DEBUG
-
+    io.micrometer: DEBUG

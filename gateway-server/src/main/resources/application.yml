@@ -10,3 +10,6 @@ spring:
 
   config:
     import: "configserver:"
+logging:
+  level:
+    ru.danil.algos.gatewayserver: DEBUG

@@ -35,6 +35,17 @@ dependencies {
     // redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
+    // zipkin //
+    // Micrometer Tracing (замена Sleuth)
+    implementation("io.micrometer:micrometer-tracing") // Основная зависимость
+    implementation("io.micrometer:micrometer-tracing-bridge-brave") // Мост для OpenTelemetry (опционально)
+
+    // Zipkin Reporter (если нужен экспорт трейсов в Zipkin)
+    implementation("io.zipkin.reporter2:zipkin-reporter-brave") // Brave (ранее использовался в Sleuth)
+
+    implementation("net.logstash.logback:logstash-logback-encoder:8.1")
+    // //
+
     // kafka
     //	implementation("org.springframework.cloud:spring-cloud-starter-stream-kafka")
     implementation("org.springframework.cloud:spring-cloud-stream")
